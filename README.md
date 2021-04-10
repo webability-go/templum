@@ -63,42 +63,36 @@ TMPLM.interfaces.destroy(object|"id");
 
 
 + Enqueue a pop object:
+If the queue is not locked, the popup is inmediatly shown.
 
 ```
-TMPLM.interfaces.addPopQueue(object|"id");
+TMPLM.interfaces.addQueue(object|"id");
 ```
 
 + Remove a pop object from the queue
 
 ```
-TMPLM.interfaces.removePopQueue(object|"id");
+TMPLM.interfaces.removeQueue(object|"id");
 ```
 
 + Flush queue:
 
 ```
-TMPLM.interfaces.flushPopQueue(object);
+TMPLM.interfaces.flushQueue(object);
 ```
 
-+ Block queue to be shown:
++ Locks queue:
 If the queue is shown on screen, it will be hidden meanwhile it is locked.
 
 ```
-TMPLM.interfaces.lockPopQueue(object);
+TMPLM.interfaces.lockQueue();
 ```
 
-+ Authorize queue to be shown:
-If the Show has been called while it is locked, the queue will be shown.
++ Unlocks queue to be shown:
+If the queue is not empty, next interface will be shown.
 
 ```
-TMPLM.interfaces.unlockPopQueue(object);
-```
-
-+ Show enqueued pop objects:
-If the queue is locked, it will wait to unlock to be shown.
-
-```
-TMPLM.interfaces.showPopQueue(object);
+TMPLM.interfaces.unlockQueue();
 ```
 
 
@@ -117,7 +111,7 @@ TMPLM.interfaces.takeover {}  // id => objects of takeover
 ### Interface Object
 
 ```
-TMPLM.interfaces.full()
+TMPLM.interfaces.interface()
 {
   screentype string
   id string
