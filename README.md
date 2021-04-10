@@ -28,9 +28,9 @@ top layer: takeover interfaces. zIndex set to 200.
 + Create an interface:
 
 ```
-itffs = TMPLM.interfaces.createInterface(id, "full", template, language);
-itfpp = TMPLM.interfaces.createInterface(id, "popup", template, language);
-itfto = TMPLM.interfaces.createInterface(id, "takeover", template, language);
+itffs = TMPLM.interfaces.create(id, "full", template, language);
+itfpp = TMPLM.interfaces.create(id, "popup", template, language);
+itfto = TMPLM.interfaces.create(id, "takeover", template, language);
 ```
 
 id is the unique ID of the interface, it is a string
