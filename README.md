@@ -3,128 +3,129 @@ A 2D javascript foundation framework for games and applications
 
 # Manual
 
-## Screens
+## Interfaces
 
-The screens interface allow to create objects that will control full or part of the visible screen to interact with the user.
-There are 3 types of screens:
-- The full screen is an object that takes the full available area on screen to display its content.
-- The pop if an object that will be put on the top of screen to ask a choice or to alert something to the user.
+The interface system allow to create objects that will control full or part of the visible screen to interact with the user.
+There are 3 types of interfaces:
+- The full screen is an interface that takes the full available area on screen to display its content.
+- The popup if an interface that will be put on the top of screen to ask a choice or to alert something to the user, without removint lower layers.
 - The takeover is an object that will be put on top of anything else and control/capture user interaction, but without removing lower layers.
 
 There can be only one full screen at the same time, even if you define many full screen objects
-There can be only one pop at the same time, even if you define many pop objects. The pop objects can be enqueued and will appear one after another.
+There can be only one popup at the same time, even if you define many popup interfaces. The popup interfaces can be enqueued and will appear one after another.
 There can be only one takeover at the same time, even if you define many take over objects.
 
-Every screen object have a unique ID that cannot be repeated
+Every interface object have a unique ID that cannot be repeated.
 
-The screens work on 3 layers:
+The interfaces work on 3 layers:
 
-lower layer: fulls creen
-middle layer: pop screen
-top layer: takeover screen
+lower layer: full screen interfaces. zIndex set to 0.
+middle layer: popup interfaces. zIndex set to 100.
+top layer: takeover interfaces. zIndex set to 200.
 
-### Full
+### Control functions:
 
-+ Create a full screen object:
++ Create an interface:
 
 ```
-o = TMPLM.createFullScreen("id");
+itffs = TMPLM.interfaces.createInterface(id, "full", template, language);
+itfpp = TMPLM.interfaces.createInterface(id, "popup", template, language);
+itfto = TMPLM.interfaces.createInterface(id, "takeover", template, language);
 ```
 
-+ Show a full screen object:
-All other full screen will be hidden. Takeover will also be hidden.
+id is the unique ID of the interface, it is a string
+template is a WA.XTemplate object
+language is a WA.XLanguage object
+itf is a TMPLM.interfaces.interface object
+
++ Switch to full screen object:
+All other full screen will be hidden. Takeover will also be hidden, except if it's already the current one.
  
 ```
-TMPLM.showFullScreen("id");
+TMPLM.interfaces.show(itf|id);
 ```
 
-+ Hide the current full screen object (lets and empty screen): 
-All take over screen will also be hidden.
+id is the unique ID of the interface, or itf is the object of the interface
+
++ Hide the interface object (lets an empty screen if it's a full screen): 
 
 ```
-TMPLM.hideFullScreen();
+TMPLM.interfaces.hide(itf|id);
 ```
 
-+ Destroy a full screen object
++ Destroy an interface object
 
 ```
-TMPLM.destroyFullScreen("id");
+TMPLM.interfaces.destroy(object|"id");
 ```
 
-### Pop
+### Queue
 
-+ Create a pop object:
-
-```
-o = TMPLM.createPopScreen("id");
-```
 
 + Enqueue a pop object:
 
 ```
-TMPLM.addPopQueue(object|"id");
+TMPLM.interfaces.addPopQueue(object|"id");
 ```
 
 + Remove a pop object from the queue
 
 ```
-TMPLM.removePopQueue(object|"id");
+TMPLM.interfaces.removePopQueue(object|"id");
 ```
 
 + Flush queue:
 
 ```
-TMPLM.flushPopQueue(object);
+TMPLM.interfaces.flushPopQueue(object);
 ```
 
 + Block queue to be shown:
 If the queue is shown on screen, it will be hidden meanwhile it is locked.
 
 ```
-TMPLM.lockPopQueue(object);
+TMPLM.interfaces.lockPopQueue(object);
 ```
 
 + Authorize queue to be shown:
 If the Show has been called while it is locked, the queue will be shown.
 
 ```
-TMPLM.unlockPopQueue(object);
+TMPLM.interfaces.unlockPopQueue(object);
 ```
 
 + Show enqueued pop objects:
 If the queue is locked, it will wait to unlock to be shown.
 
 ```
-TMPLM.showPopQueue(object);
+TMPLM.interfaces.showPopQueue(object);
 ```
 
-+ Destroy a pop object:
-If the pop is enqueued, it will be removed from the queue.
+
+### Public attributes
 
 ```
-TMPLM.destroyTakeOverScreen("id");
+TMPLM.interfaces.fullid string  // id of active full screen
+TMPLM.interfaces.full {}  // id => objects of full screen
+TMPLM.interfaces.popupid string  // id of active popup if any
+TMPLM.interfaces.popup {}  // id => objects of popup
+TMPLM.interfaces.popupqueue []  // list of popup objects to show
+TMPLM.interfaces.takeoverid string  // id of active takeover
+TMPLM.interfaces.takeover {}  // id => objects of takeover
 ```
 
-### Takeover
-
-
-+ Create a takeover object:
+### Interface Object
 
 ```
-o = TMPLM.createTakeOverScreen("id");
+TMPLM.interfaces.full()
+{
+  screentype string
+  id string
+  template
+  language
+  node DOMNode
+}
 ```
 
-+ Show a takeover screen object:
-All other takeover will be hidden.
-
-```
-TMPLM.showTakeOverScreen("id");
-```
-
-+ Destroy a takeover object
-
-```
-TMPLM.destroyTakeOverScreen("id");
-```
 
 
